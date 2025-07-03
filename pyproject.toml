@@ -1,7 +1,80 @@
 [project]
 name = "lindas-hydro-scraper"
 version = "0.1.0"
-description = "Add your description here"
+description = "Python package for scraping hydrological data from Swiss LINDAS platform"
 readme = "README.md"
+authors = [{ name = "CooperBigFoot", email = "nlazaro@student.ethz.ch" }]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pandas>=2.2.0",
+    "python-dotenv>=1.0.0",
+    "SPARQLWrapper>=2.0.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+]
+
+[project.scripts]
+lindas-hydro-scraper = "lindas_hydro_scraper.main:main"
+
+[build-system]
+requires = ["setuptools>=64.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.11.8",
+    "mypy>=1.9.0",
+    "pandas-stubs>=2.2.0",
+    "types-requests>=2.31.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["lindas_hydro_scraper*"]
+
+# RUFF Configuration
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+fix = false
+exclude = ["notebooks/", "experiments/"]
+
+[tool.ruff.lint]
+# Essential rules: errors, warnings, naming, imports, modern Python, bugs, comprehensions, simplifications
+select = ["E", "F", "W", "N", "I", "UP", "B", "C4", "SIM"]
+ignore = [
+    "E501", # Line too long (let formatter handle this)
+    "N803", # Argument name should be lowercase - ML convention allows X, Y
+    "N806", # Variable in function should be lowercase - ML convention allows X, Y
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# TY Configuration  
+[tool.ty]
+# Ty doesn't support exclude in pyproject.toml yet
+# Files are excluded via .gitignore or command line args
+
+[tool.ty.rules]
+# Example: Set some rules to warn instead of error for gradual adoption
+possibly-unresolved-reference = "warn"
+
+# Pytest Configuration
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "-ra",                                             # Show all test results
+    "--ignore=notebooks/",
+    "--ignore=old_code/",
+]

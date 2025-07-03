@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(ls:*)",
+      "Bash(uv sync:*)",
+      "Bash(mv:*)",
+      "Bash(mkdir:*)",
+      "Bash(uv run ruff:*)",
+      "WebFetch(domain:docs.astral.sh)",
+      "Bash(uv run:*)",
+      "Bash(uvx ty check:*)"
+    ],
+    "deny": []
+  }
+}
